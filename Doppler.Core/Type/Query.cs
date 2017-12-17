@@ -2,7 +2,9 @@
 {
     public class Query
     {
-        public string Upc { get; set; }
+        public string UpcId { get; set; }
         public string Title { get; set; }
+        public int Year { get; set; }
+        public MediaType MediaType { get; set; }
     }
 }

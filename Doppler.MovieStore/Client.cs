@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using TMDbLib.Client;
-using TMDbLib.Objects.Find;
 using TMDbLib.Objects.Movies;
 using TMDbLib.Objects.Search;
 
@@ -15,15 +15,16 @@ namespace Doppler.MovieStore
         public Client()
         {
             _client = new TMDbClient(ApiKey);
+            _client.GetConfig();
         }
 
-        public async Task<List<SearchMovie>> GetAsync(string movieTitle)
+        public async Task<List<SearchMovie>> GetAsync(string movieTitle, int year)
         {
-            var movies = await _client.SearchMovieAsync(movieTitle);
+            var movies = await _client.SearchMovieAsync(movieTitle, 0, false, year);
             return movies.Results.Count > 0 ? movies.Results : null;
         }
 
-        public async Task<Movie> GetAsync(FindExternalSource source, string id)
+        public async Task<Movie> GetAsync(int id)
         {
             return await _client.GetMovieAsync(
                 id,
@@ -31,6 +32,11 @@ namespace Doppler.MovieStore
                 MovieMethods.Images |
                 MovieMethods.Keywords |
                 MovieMethods.Reviews);
+        }
+
+        public string BuildImageUrl(string imagePath)
+        {
+            return $"{_client.Config.Images.BaseUrl}{_client.Config.Images.PosterSizes.FirstOrDefault(p => p.Contains("500"))}{imagePath}";
         }
     }
 }

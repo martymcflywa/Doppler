@@ -11,7 +11,7 @@ namespace Doppler.Tests.UpcStore
         {
             const string testUpc = "085391640028";
             var store = new Store();
-            var upcMovie = store.GetAsync(new Query {Upc = testUpc}).Result;
+            var upcMovie = store.GetAsync(new Query {UpcId = testUpc}).Result;
             var title = upcMovie.Title;
             var upc = upcMovie.UpcId;
             var media = upcMovie.MediaType;

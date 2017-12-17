@@ -7,39 +7,49 @@ namespace Doppler.UpcStore.Extension
 {
     internal static class UpcScraperEx
     {
-        private const string Pattern = @"^(.+?)[\(\[](DVD.*?|Blu?.Ray.*?)[\]\)]"; // group1=title, group2=media type
-        private static readonly Regex Regex = new Regex(Pattern, RegexOptions.IgnoreCase | RegexOptions.Singleline);
-
-
         public static string GetTitle(this string title)
         {
-            var titleMatch = Regex.Match(title);
-            var cleanTitle = titleMatch?.Groups[1].Value.Clean();
-            return cleanTitle;
+            const string titlePattern = @"^(.+?)[\(\[](DVD.*?|Blu?.Ray.*?)[\]\)]";
+            var titleRegex = new Regex(titlePattern, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+
+            return titleRegex.Match(title).Success ? titleRegex.Match(title).Groups[1].Value.Clean() : null;
         }
 
         public static MediaType GetMediaType(this string title)
         {
-            const string mediaTypePattern = @"DVD.*?|Blu?.Ray.*?";
-            var mediaTypeRegex = new Regex(mediaTypePattern);
+            const string mediaTypePattern = @"DVD|Blu?.Ray";
+            var mediaTypeRegex = new Regex(mediaTypePattern, RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
-            var rawMediaTypeMatch = Regex.Match(title);
-            var rawMediaType = rawMediaTypeMatch?.Groups[2].Value;
-            var cleanMediaType = mediaTypeRegex.Match(rawMediaType).Value.RemoveChar('-').Clean();
+            var mediaType = MediaType.Unknown;
+            if (!mediaTypeRegex.Match(title).Success)
+                return mediaType;
 
-            if (!Enum.TryParse(cleanMediaType, out MediaType mediaType)) return mediaType;
+            var extractedMediaType = mediaTypeRegex
+                .Match(title)
+                .Groups[2]
+                .Value
+                .RemoveChar('-')
+                .Clean();
+
+            if (!Enum.TryParse(extractedMediaType, out mediaType)) return mediaType;
             switch (mediaType)
             {
-                case MediaType.Bluray:
-                    mediaType = MediaType.Bluray;
-                    break;
                 case MediaType.Dvd:
                     mediaType = MediaType.Dvd;
                     break;
-                default:
-                    return MediaType.Unknown;
+                case MediaType.Bluray:
+                    mediaType = MediaType.Bluray;
+                    break;
             }
             return mediaType;
+        }
+
+        public static int GetYear(this string title)
+        {
+            const string yearPattern = @"\[\(\d{2,4}\)\]";
+            var yearRegex = new Regex(yearPattern);
+
+            return yearRegex.Match(title).Success ? int.Parse(yearRegex.Match(title).Groups[1].Value) : 0;
         }
     }
 }
