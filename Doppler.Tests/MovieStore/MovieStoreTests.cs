@@ -13,7 +13,7 @@ namespace Doppler.Tests.MovieStore
             const string testTitle = "Space Jam";
             const int testYear = 1997;
 
-            var store = new Store();
+            var store = new Doppler.MovieStore.MovieReadStore();
             var tmdbMovie = store.GetAsync(new Query {Title = testTitle, Year = testYear}).Result;
         }
     }

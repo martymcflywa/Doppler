@@ -5,11 +5,11 @@ using Doppler.Core.Type;
 
 namespace Doppler.MovieStore
 {
-    public class Store : IReadStore
+    public class MovieReadStore : IReadStore
     {
         private readonly Client _client;
 
-        public Store()
+        public MovieReadStore()
         {
             _client = new Client();
         }

@@ -5,12 +5,12 @@ using Doppler.UpcStore.Extension;
 
 namespace Doppler.UpcStore
 {
-    public class Store : IReadStore
+    public class UpcReadStore : IReadStore
     {
         private const string BaseUri = "https://api.upcitemdb.com";
         private readonly Client _client;
 
-        public Store()
+        public UpcReadStore()
         {
             _client = new Client(BaseUri);
         }
