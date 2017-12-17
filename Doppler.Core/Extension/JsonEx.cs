@@ -19,5 +19,10 @@ namespace Doppler.Core.Extension
                 return serializer.Deserialize<TProxy>(jsonReader);
             }
         }
+
+        public static string ToJson(this object @object)
+        {
+            return JsonConvert.SerializeObject(@object, Formatting.Indented);
+        }
     }
 }

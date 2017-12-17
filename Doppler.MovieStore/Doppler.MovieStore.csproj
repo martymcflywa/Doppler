@@ -6,6 +6,6 @@
     <PackageReference Include="TMDbLib" Version="1.0.7-alpha" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Doppler.Core\Dopper.Core.csproj" />
+    <ProjectReference Include="..\Doppler.Core\Doppler.Core.csproj" />
   </ItemGroup>
 </Project>

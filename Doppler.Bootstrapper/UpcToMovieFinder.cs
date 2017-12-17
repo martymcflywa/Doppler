@@ -9,12 +9,12 @@ namespace Doppler.Bootstrapper
     public class UpcToMovieFinder
     {
         private readonly IReadStore _upcStore;
-        private readonly IReadStore _tmdbStore;
+        private readonly IReadStore _movieStore;
 
         public UpcToMovieFinder()
         {
-            _upcStore = new MovieReadStore();
-            _tmdbStore = new UpcReadStore();
+            _upcStore = new UpcReadStore();
+            _movieStore = new MovieReadStore();
         }
 
         public async Task<TmdbQueryResult> GetAsync(string upcId)
@@ -37,7 +37,7 @@ namespace Doppler.Bootstrapper
 
         private async Task<TmdbQueryResult> FindMovie(Query query)
         {
-            return (TmdbQueryResult) await _tmdbStore.GetAsync(query);
+            return (TmdbQueryResult) await _movieStore.GetAsync(query);
         }
     }
 }

@@ -3,6 +3,6 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Doppler.Core\Dopper.Core.csproj" />
+    <ProjectReference Include="..\Doppler.Core\Doppler.Core.csproj" />
   </ItemGroup>
 </Project>

@@ -9,7 +9,7 @@
     <PackageReference Include="xunit.runner.visualstudio" Version="2.2.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Doppler.Core\Dopper.Core.csproj" />
+    <ProjectReference Include="..\Doppler.Core\Doppler.Core.csproj" />
     <ProjectReference Include="..\Doppler.MovieStore\Doppler.MovieStore.csproj" />
     <ProjectReference Include="..\Doppler.UpcStore\Doppler.UpcStore.csproj" />
   </ItemGroup>

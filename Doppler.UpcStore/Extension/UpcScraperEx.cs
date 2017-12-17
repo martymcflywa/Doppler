@@ -9,7 +9,7 @@ namespace Doppler.UpcStore.Extension
     {
         public static string GetTitle(this string title)
         {
-            const string titlePattern = @"^(.+?)[\(\[](DVD.*?|Blu?.Ray.*?)[\]\)]";
+            const string titlePattern = @"^(.+?)[\(\[]";
             var titleRegex = new Regex(titlePattern, RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
             return titleRegex.Match(title).Success ? titleRegex.Match(title).Groups[1].Value.Clean() : null;
@@ -31,7 +31,9 @@ namespace Doppler.UpcStore.Extension
                 .RemoveChar('-')
                 .Clean();
 
-            if (!Enum.TryParse(extractedMediaType, out mediaType)) return mediaType;
+            if (!Enum.TryParse(extractedMediaType, out mediaType))
+                return mediaType;
+
             switch (mediaType)
             {
                 case MediaType.Dvd:
