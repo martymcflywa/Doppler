@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Doppler.Core;
+using Doppler.Core.Exception;
 using Doppler.Core.Type;
 
 namespace Doppler.MovieStore
@@ -17,10 +18,7 @@ namespace Doppler.MovieStore
         public async Task<IQueryResult> GetAsync(Query query)
         {
             // TODO: handle multiple responses, show user all results, selectable
-            // TODO: handle when search unsuccessful
             var tmdbSearchResult = (await _client.GetAsync(query.Title, query.Year)).FirstOrDefault();
-            if (tmdbSearchResult == null)
-                return null;
 
             var tmdbMovie = await _client.GetAsync(tmdbSearchResult.Id);
 

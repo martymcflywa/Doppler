@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Doppler.Core.Exception;
 using Doppler.Core.Extension;
 using Doppler.UpcStore.Proxy;
 
@@ -27,13 +28,27 @@ namespace Doppler.UpcStore
 
         public async Task<UpcResponse> GetAsync(string id)
         {
+            var query = BuildRequest(id);
             var response = await _client.GetAsync(BuildRequest(id));
-            var stream = await response.Content.ReadAsStreamAsync();
-            if (response.StatusCode.Equals(HttpStatusCode.OK))
-                return stream.Deserialize<UpcResponse>();
 
-            var error = stream.Deserialize<Error>();
-            throw new HttpRequestException($"Error code {error.Code}. Message {error.Message}");
+            switch (response.StatusCode)
+            {
+                case HttpStatusCode.OK: // we got stuff!
+                    var stream = await response.Content.ReadAsStreamAsync();
+                    return stream.Deserialize<UpcResponse>();
+                case HttpStatusCode.NotFound:
+                    throw new UpcNotFoundException(id);
+                case HttpStatusCode.BadRequest: // invalid query, missing parameters
+                    throw new UpcNotFoundException(id);
+                case (HttpStatusCode) 429: // exceed request limit
+                    throw new UpcStoreRequestLimitExceededException();
+                case HttpStatusCode.InternalServerError:
+                    throw new InternalUpcStoreErrorException();
+                case HttpStatusCode.Unauthorized:
+                    throw new UnauthorizedAccessException();
+                default:
+                    throw new Exception("Unknown fatal error attempting to access upc store.");
+            }
         }
 
         private static string BuildRequest(string id)
