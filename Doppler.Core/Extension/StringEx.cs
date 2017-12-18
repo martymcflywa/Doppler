@@ -19,6 +19,12 @@ namespace Doppler.Core.Extension
 
         public static string RemoveChar(this string @string, char @char)
         {
+            if (@string.IsEmpty())
+                return null;
+
+            if (!@string.Contains(@char.ToString()))
+                return @string;
+
             var index = 0;
             var result = new char[@string.Length];
             for (var i = 0; i < @string.Length; i++)

@@ -31,6 +31,7 @@ namespace Doppler.MovieStore
             {
                 UpcId = query.UpcId,
                 Title = tmdbMovie.Title,
+                MediaType = query.MediaType,
                 Year = int.Parse(tmdbMovie.ReleaseDate?.Year.ToString()),
                 Tagline = tmdbMovie.Tagline,
                 Overview = tmdbMovie.Overview,

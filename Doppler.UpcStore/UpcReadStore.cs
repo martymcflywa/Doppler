@@ -18,13 +18,14 @@ namespace Doppler.UpcStore
         public async Task<IQueryResult> GetAsync(Query query)
         {
             var upcResponse = await _client.GetAsync(query.UpcId);
-            return new UpcQueryResult
+            var result = new UpcQueryResult
             {
                 UpcId = query.UpcId,
                 Title = upcResponse.Items[0].Title.GetTitle(),
                 MediaType = upcResponse.Items[0].Title.GetMediaType(),
                 Year = upcResponse.Items[0].Title.GetYear()
             };
+            return result;
         }
     }
 }

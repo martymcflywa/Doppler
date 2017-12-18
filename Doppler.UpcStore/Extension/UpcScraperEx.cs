@@ -20,30 +20,14 @@ namespace Doppler.UpcStore.Extension
             const string mediaTypePattern = @"DVD|Blu?.Ray";
             var mediaTypeRegex = new Regex(mediaTypePattern, RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
-            var mediaType = MediaType.Unknown;
-            if (!mediaTypeRegex.Match(title).Success)
-                return mediaType;
-
             var extractedMediaType = mediaTypeRegex
                 .Match(title)
-                .Groups[2]
                 .Value
                 .RemoveChar('-')
+                .RemoveChar('e')
                 .Clean();
 
-            if (!Enum.TryParse(extractedMediaType, out mediaType))
-                return mediaType;
-
-            switch (mediaType)
-            {
-                case MediaType.Dvd:
-                    mediaType = MediaType.Dvd;
-                    break;
-                case MediaType.Bluray:
-                    mediaType = MediaType.Bluray;
-                    break;
-            }
-            return mediaType;
+            return Enum.TryParse(extractedMediaType, true, out MediaType mediaType) ? mediaType : MediaType.Unknown;
         }
 
         public static int GetYear(this string title)
