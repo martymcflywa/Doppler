@@ -28,7 +28,6 @@ namespace Doppler.UpcStore
 
         public async Task<UpcResponse> GetAsync(string id)
         {
-            var query = BuildRequest(id);
             var response = await _client.GetAsync(BuildRequest(id));
 
             switch (response.StatusCode)

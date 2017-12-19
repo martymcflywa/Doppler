@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
+using Doppler.Core;
 using Microsoft.AspNetCore.Mvc;
 using Doppler.Frontend.Web.Models;
 
@@ -10,6 +7,13 @@ namespace Doppler.Frontend.Web.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IApiConsumer _dopplerStore;
+
+        public HomeController(IApiConsumer dopplerStore)
+        {
+            _dopplerStore = dopplerStore;
+        }
+
         public IActionResult Index()
         {
             return View();

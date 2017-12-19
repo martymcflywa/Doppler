@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using Doppler.Core;
-using Doppler.Core.Type;
+﻿using System.Collections.Generic;
 
-namespace Doppler.MovieStore
+namespace Doppler.Core.Type
 {
     public class TmdbQueryResult : IQueryResult
     {

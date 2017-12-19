@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Doppler.Core;
+using Doppler.Frontend.Web.Controllers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -22,6 +24,9 @@ namespace Doppler.Frontend.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+
+            // inject objects here
+            services.AddTransient<IApiConsumer, DopplerStore>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
