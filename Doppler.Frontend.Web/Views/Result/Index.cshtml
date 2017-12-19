@@ -1,0 +1,25 @@
+﻿@model ResultViewModel
+
+<div class="row">
+    <div class="col-sm-6">
+        <h1>@Model.Title (@Model.Year)</h1>
+        <blockquote>@Model.Tagline</blockquote>
+        <hr/>
+        <p>@Model.Overview</p>
+        <hr/>
+        @foreach (var member in Model.Cast)
+        {
+            <button class="btn btn-xs">@member</button>
+        }
+        <hr/>
+        @foreach (var genre in Model.Genres)
+        {
+            <button class="btn btn-xs">@genre</button>
+        }
+        <hr/>
+        <button class="btn btn-xs">@Model.MediaType</button>
+    </div>
+    <div class="col-sm-6">
+        <img src="@Model.PosterPath" alt="poster"/>
+    </div>
+</div>

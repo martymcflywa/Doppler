@@ -1,0 +1,14 @@
+﻿@model SearchViewModel
+@{
+    ViewBag.Title = "UPC Movie Finder";
+}
+
+<div class="row">
+    <div class="form-horizontal form-group">
+        <form asp-action="Index" asp-controller="Result">
+            <label asp-for="UpcId" class="control-label"></label>
+            <input asp-for="UpcId" class="form-control" placeholder="Required"/>
+            <input type="submit" class="btn btn-default"/>
+        </form>
+    </div>
+</div>

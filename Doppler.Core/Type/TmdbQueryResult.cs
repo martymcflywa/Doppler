@@ -11,6 +11,7 @@ namespace Doppler.Core.Type
 
         public string Tagline { get; set; }
         public string Overview { get; set; }
+        public IEnumerable<string> Cast { get; set; }
         public IEnumerable<string> Genres { get; set; }
         public IEnumerable<string> Images { get; set; }
         public string PosterPath { get; set; }

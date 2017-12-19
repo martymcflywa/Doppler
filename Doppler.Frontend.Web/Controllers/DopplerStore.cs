@@ -5,6 +5,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Doppler.Core;
 using Doppler.Core.Extension;
+using Doppler.Core.Type;
 
 namespace Doppler.Frontend.Web.Controllers
 {
@@ -40,7 +41,8 @@ namespace Doppler.Frontend.Web.Controllers
         {
             var response = await _client.GetAsync(BuildUpcRequest(upcId));
             // TODO: handle non OK responses
-            return (await response.Content.ReadAsStreamAsync()).ToJson();
+            var json = await response.Content.ReadAsStringAsync();
+            return json;
         }
 
         public Task<string> GetMovieFromTitleAsync(string title)

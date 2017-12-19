@@ -1,7 +1,11 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
 using Doppler.Core;
+using Doppler.Core.Extension;
 using Microsoft.AspNetCore.Mvc;
 using Doppler.Frontend.Web.Models;
+using Newtonsoft.Json;
 
 namespace Doppler.Frontend.Web.Controllers
 {
@@ -17,6 +21,22 @@ namespace Doppler.Frontend.Web.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Result([Bind("UpcId")] SearchViewModel resultViewModel)
+        {
+            var result = await _dopplerStore.GetMovieFromUpcAsync(resultViewModel.UpcId);
+            var model = JsonConvert.DeserializeObject<ResultViewModel>(result);
+            return View(model);
+        }
+
+        [HttpGet("Home/Result/{upcId}")]
+        public async Task<IActionResult> Result(string upcId)
+        {
+            var result = await _dopplerStore.GetMovieFromUpcAsync(upcId);
+            var model = JsonConvert.DeserializeObject<ResultViewModel>(result);
+            return View(model);
         }
 
         public IActionResult About()

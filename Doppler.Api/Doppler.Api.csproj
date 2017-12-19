@@ -13,6 +13,5 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Doppler.Bootstrapper\Doppler.Bootstrapper.csproj" />
-    <ProjectReference Include="..\Doppler.Core\Doppler.Core.csproj" />
   </ItemGroup>
 </Project>

@@ -6,7 +6,7 @@ using Doppler.UpcStore;
 
 namespace Doppler.Bootstrapper
 {
-    public class UpcToMovieFinder
+    public class UpcToMovieFinder : IBootstrap
     {
         private readonly IReadStore _upcStore;
         private readonly IReadStore _movieStore;
