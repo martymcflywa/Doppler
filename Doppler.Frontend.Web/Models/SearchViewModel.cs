@@ -5,10 +5,10 @@ using Newtonsoft.Json;
 
 namespace Doppler.Frontend.Web.Models
 {
-    [Validator(typeof(SearchViewModelValidator))]
+    [Validator(typeof(SearchValidator))]
     public class SearchViewModel
     {
-        [Display(Name = "UPC Search")]
+        [Display(Name = "Upc Id")]
         [DataType(DataType.Text)]
         [JsonProperty("upcId")]
         public string UpcId { get; set; }

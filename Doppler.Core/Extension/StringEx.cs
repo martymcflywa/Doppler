@@ -10,11 +10,11 @@ namespace Doppler.Core.Extension
         {
             return @string
                 .DecodeHtml()
-                .TrimKnownChars()
-                .CapitaliseSingleWord()
-                .CapitaliseWords()
-                .HandleApostrophe()
-                .NullIfEmpty();
+                .TrimKnownChars();
+//                .CapitaliseSingleWord()
+//                .CapitaliseWords()
+//                .HandleApostrophe()
+//                .NullIfEmpty();
         }
 
         public static string RemoveChar(this string @string, char @char)

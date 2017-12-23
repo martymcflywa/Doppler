@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Doppler.Core;
+﻿using Doppler.Core;
 using Doppler.Frontend.Web.Controllers;
+using Doppler.Frontend.Web.Models;
+using Doppler.Frontend.Web.Models.Validation;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -23,10 +24,14 @@ namespace Doppler.Frontend.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddMvc()
+                .AddFluentValidation();
 
             // inject objects here
-            services.AddTransient<IApiConsumer, DopplerStore>();
+            services
+                .AddTransient<IApiConsumer, DopplerStore>()
+                .AddTransient<IHttpContextAccessor, HttpContextAccessor>()
+                .AddTransient<IValidator<SearchViewModel>, SearchValidator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
