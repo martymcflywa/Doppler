@@ -26,7 +26,7 @@ namespace Doppler.Frontend.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Result([Bind("UpcId")] SearchViewModel resultViewModel)
         {
-            var result = await _dopplerStore.GetMovieFromUpcAsync(resultViewModel.UpcId);
+            var result = await _dopplerStore.GetMovieByUpcAsync(resultViewModel.UpcId);
             var model = JsonConvert.DeserializeObject<ResultViewModel>(result);
             return View(model);
         }
@@ -34,7 +34,7 @@ namespace Doppler.Frontend.Web.Controllers
         [HttpGet("Home/Result/{upcId}")]
         public async Task<IActionResult> Result(string upcId)
         {
-            var result = await _dopplerStore.GetMovieFromUpcAsync(upcId);
+            var result = await _dopplerStore.GetMovieByUpcAsync(upcId);
             var model = JsonConvert.DeserializeObject<ResultViewModel>(result);
             return View(model);
         }

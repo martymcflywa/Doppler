@@ -1,21 +1,25 @@
-﻿using System;
-using Doppler.Frontend.Web.Models;
+﻿using Doppler.Frontend.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Doppler.Frontend.Web.Controllers
 {
     public class SearchController : Controller
     {
-        [HttpGet("Search")]
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
         }
 
-        [HttpGet]
+        [HttpPost]
         public IActionResult Index(SearchViewModel model)
         {
-            return View(model);
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
+            return RedirectToAction("Index", "Result", model);
         }
     }
 }

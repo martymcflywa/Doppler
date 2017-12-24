@@ -15,17 +15,12 @@ namespace Doppler.Frontend.Web.Controllers
             _dopplerStore = dopplerStore;
         }
 
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> Index(SearchViewModel searchViewModel)
         {
-            if (!ModelState.IsValid)
-            {
-                return RedirectToAction("Index", "Search", searchViewModel);
-            }
-
-            var result = await _dopplerStore.GetMovieFromUpcAsync(searchViewModel.UpcId);
-            var model = JsonConvert.DeserializeObject<ResultViewModel>(result);
-            return View(model);
+            var result = await _dopplerStore.GetMovieByUpcAsync(searchViewModel.UpcId);
+            var resultViewModel = JsonConvert.DeserializeObject<ResultViewModel>(result);
+            return View(resultViewModel);
         }
     }
 }

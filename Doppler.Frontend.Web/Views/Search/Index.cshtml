@@ -3,12 +3,11 @@
     ViewBag.Title = "UPC Movie Finder";
 }
 
-<div asp-validation-summary="All"></div>
-<form asp-action="Index" asp-controller="Result" class="form-horizontal">
+<form asp-action="Index" asp-controller="Search" class="form-horizontal">
     <div class="row">
         <div class="form-group col-sm-6">
             <label asp-for="UpcId" class="control-label"></label>
-            <input asp-for="UpcId" class="form-control" placeholder="Required"/><span asp-validation-for="UpcId"></span>
+            <input asp-for="UpcId" class="form-control" placeholder="Required"/><span asp-validation-for="UpcId" class="text-warning"></span>
         </div>
     </div>
 

@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using Doppler.Core.Type;
+using Doppler.Frontend.Web.Models.Validation;
+using FluentValidation.Attributes;
 using Newtonsoft.Json;
 
 namespace Doppler.Frontend.Web.Models

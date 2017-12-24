@@ -4,8 +4,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Doppler.Core;
-using Doppler.Core.Extension;
-using Doppler.Core.Type;
 
 namespace Doppler.Frontend.Web.Controllers
 {
@@ -37,20 +35,28 @@ namespace Doppler.Frontend.Web.Controllers
                 $"/api/upc/{upcId}");
         }
 
-        public async Task<string> GetMovieFromUpcAsync(string upcId)
+        public async Task<string> GetMovieByUpcAsync(string upcId)
         {
+            try
+            {
+
+            }
+            catch (HttpRequestException ex)
+            {
+                // Todo: handle case where api server is down
+            }
             var response = await _client.GetAsync(BuildUpcRequest(upcId));
             // TODO: handle non OK responses
             var json = await response.Content.ReadAsStringAsync();
             return json;
         }
 
-        public Task<string> GetMovieFromTitleAsync(string title)
+        public Task<string> GetMovieByTitleYearAsync(string title)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<string> GetMovieFromExternalId(string source, string id)
+        public Task<string> GetMovieByExternalId(string source, string id)
         {
             throw new System.NotImplementedException();
         }

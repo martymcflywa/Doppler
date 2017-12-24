@@ -5,8 +5,8 @@ namespace Doppler.Core
 {
     public interface IApiConsumer
     {
-        Task<string> GetMovieFromUpcAsync(string upcId);
-        Task<string> GetMovieFromTitleAsync(string title);
-        Task<string> GetMovieFromExternalId(string source, string id);
+        Task<string> GetMovieByUpcAsync(string upcId);
+        Task<string> GetMovieByTitleYearAsync(string title);
+        Task<string> GetMovieByExternalId(string source, string id);
     }
 }
