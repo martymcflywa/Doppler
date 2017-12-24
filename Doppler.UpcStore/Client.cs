@@ -36,7 +36,6 @@ namespace Doppler.UpcStore
                     var stream = await response.Content.ReadAsStreamAsync();
                     return stream.Deserialize<UpcResponse>();
                 case HttpStatusCode.NotFound:
-                    throw new UpcNotFoundException(id);
                 case HttpStatusCode.BadRequest: // invalid query, missing parameters
                     throw new UpcNotFoundException(id);
                 case (HttpStatusCode) 429: // exceed request limit

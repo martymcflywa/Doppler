@@ -1,10 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Doppler.Core.Exception;
 using TMDbLib.Client;
-using TMDbLib.Objects.Exceptions;
-using TMDbLib.Objects.General;
 using TMDbLib.Objects.Movies;
 using TMDbLib.Objects.Search;
 
@@ -23,22 +20,7 @@ namespace Doppler.MovieStore
 
         public async Task<List<SearchMovie>> GetAsync(string movieTitle, int year)
         {
-            SearchContainer<SearchMovie> movies;
-
-            try
-            {
-                movies = await _client.SearchMovieAsync(movieTitle, 0, false, year);
-            }
-            catch (RequestLimitExceededException)
-            {
-                throw new MovieStoreRequestLimitExceededException();
-            }
-            // TODO: also throws UnauthorizedAccessException and 429, catch this at api
-
-            if(movies.Results.Count < 1)
-                throw new MovieNotFoundException(movieTitle);
-
-            return movies.Results;
+            return (await _client.SearchMovieAsync(movieTitle, 0, false, year)).Results;
         }
 
         public async Task<Movie> GetAsync(int id)

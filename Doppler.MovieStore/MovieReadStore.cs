@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using Doppler.Core;
 using Doppler.Core.Exception;
 using Doppler.Core.Type;
+using TMDbLib.Objects.Movies;
+using TMDbLib.Objects.Search;
 
 namespace Doppler.MovieStore
 {
@@ -17,21 +19,66 @@ namespace Doppler.MovieStore
 
         public async Task<IQueryResult> GetAsync(Query query)
         {
-            // TODO: handle multiple responses, show user all results, selectable
-            var tmdbSearchResult = (await _client.GetAsync(query.Title, query.Year)).FirstOrDefault();
+            var fromTitleYear = await Search(query.Title, query.Year);
+            var fromId = await Search(fromTitleYear.Id);
+            return BuildResult(query, fromId);
+        }
 
-            var tmdbMovie = await _client.GetAsync(tmdbSearchResult.Id);
+        private async Task<SearchMovie> Search(string title, int year)
+        {
+            var movies = await _client.GetAsync(title, year);
 
-            var cast = tmdbMovie.Credits.Cast.Select(c => c.Name).ToList();
-            var genres = tmdbMovie.Genres.Select(genre => genre.Name).ToList();
-            var images = tmdbMovie.Images.Posters.Select(image => _client.BuildImageUrl(image.FilePath)).ToList();
+            if (movies.Count < 1)
+                throw new MovieNotFoundException(title);
 
-            var year = int.Parse(
-                tmdbMovie
+            return movies.First();
+        }
+
+        private async Task<Movie> Search(int id)
+        {
+            return await _client.GetAsync(id);
+        }
+
+        private TmdbQueryResult BuildResult(Query query, Movie movie)
+        {
+            var cast = movie.Credits.Cast
+                .Select(c => c.Name)
+                .Take(5)
+                .ToList();
+
+            var genres = movie.Genres
+                .Select(genre => genre.Name)
+                .ToList();
+
+            var images = movie.Images.Posters
+                .Select(image => _client.BuildImageUrl(image.FilePath))
+                .ToList();
+
+            var year = GetYear(movie);
+
+            return new TmdbQueryResult
+            {
+                UpcId = query.UpcId,
+                Title = movie.Title,
+                MediaType = query.MediaType,
+                Year = year,
+                Tagline = movie.Tagline,
+                Overview = movie.Overview,
+                Cast = cast,
+                Genres = genres,
+                Images = images,
+                PosterPath = _client.BuildImageUrl(movie.PosterPath)
+            };
+        }
+
+        private static int GetYear(Movie movie)
+        {
+            return int.Parse(
+                movie
                     .ReleaseDate?
                     .Year
                     .ToString() ??
-                tmdbMovie
+                movie
                     .ReleaseDates
                     .Results
                     .FirstOrDefault()
@@ -40,20 +87,6 @@ namespace Doppler.MovieStore
                     .ReleaseDate
                     .Year
                     .ToString());
-
-            return new TmdbQueryResult
-            {
-                UpcId = query.UpcId,
-                Title = tmdbMovie.Title,
-                MediaType = query.MediaType,
-                Year = year,
-                Tagline = tmdbMovie.Tagline,
-                Overview = tmdbMovie.Overview,
-                Cast = cast,
-                Genres = genres,
-                Images = images,
-                PosterPath = _client.BuildImageUrl(tmdbMovie.PosterPath)
-            };
         }
     }
 }
