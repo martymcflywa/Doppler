@@ -1,31 +1,29 @@
 ﻿@model SearchViewModel
 @{
-    ViewBag.Title = "UPC Movie Finder";
+    ViewBag.Title = "Doppler";
+    ViewBag.Tagline = "UPC Movie Search";
 }
 
-<div class="jumbotron">
-    <div class="row">
-        <div class="col-md-12">
-            <h1>@ViewBag.Title</h1>
-        </div>
+<div class="row jumbotron">
+    <div class="col-md-12">
+        <h1>@ViewBag.Title</h1>
+        <h2>@ViewBag.Tagline</h2>
     </div>
 </div>
 
-@using (Html.BeginForm("Index", "Home", new { ViewBag.ReturnUrl }, FormMethod.Post, true, new {@class = "form-horizontal", role = "form"}))
-{
-    <div class="form-horizontal">
-        @Html.ValidationSummary(true, "", new {@class = "text-danger"})
-        <div class="form-group">
-            <div class="col-md-4">
-                @Html.LabelFor(model => model.UpcId, new {htmlAttributes = new {@class = "control-label col-md-4"}})
-                @Html.EditorFor(model => model.UpcId, new {htmlAttributes = new {@class = "form-control", placeholder = "12 digit UPC number required"}})
+<div class="container">
+    <div class="row">
+        <form asp-action="Index" asp-controller="Home" class="form-horizontal">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label asp-for="UpcId" class="control-label"></label>
+                    <input asp-for="UpcId" class="form-control" placeholder="Required"/>
+                    <span asp-validation-for="UpcId" class="text-warning"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" class="btn btn-default"/>
+                </div>
             </div>
-            <div class="col-md-4">
-                @Html.ValidationMessageFor(model => model.UpcId, "", new {@class = "text-danger"})
-            </div>
-            <div class="col-md-2">
-                <a class="btn btn-default" href="@Url.Action("Result", "Home")">Search</a>
-            </div>
-        </div>
+        </form>
     </div>
-}
+</div>

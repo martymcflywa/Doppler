@@ -9,7 +9,7 @@ namespace Doppler.Frontend.Web.Models.Validation
             RuleFor(field => field.UpcId)
                 .NotNull().WithMessage("* Required")
                 .NotEmpty().WithMessage("* Required")
-                .Matches(@"^\d{12}").WithMessage("* Must be a 12 digit upc id");
+                .Matches(@"^\d{12}").WithMessage("* Must be a 12 digit UPC number");
         }
     }
 }
