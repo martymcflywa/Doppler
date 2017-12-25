@@ -11,10 +11,6 @@ namespace Doppler.Core.Extension
             return @string
                 .DecodeHtml()
                 .TrimKnownChars();
-//                .CapitaliseSingleWord()
-//                .CapitaliseWords()
-//                .HandleApostrophe()
-//                .NullIfEmpty();
         }
 
         public static string RemoveChar(this string @string, char @char)
@@ -39,7 +35,7 @@ namespace Doppler.Core.Extension
 
         private static bool IsEmpty(this string @string)
         {
-            return string.IsNullOrEmpty(@string) || string.IsNullOrWhiteSpace(@string);
+            return string.IsNullOrWhiteSpace(@string);
         }
 
         private static string NullIfEmpty(this string @string)

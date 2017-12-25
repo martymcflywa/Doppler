@@ -33,8 +33,8 @@ namespace Doppler.UpcStore
             switch (response.StatusCode)
             {
                 case HttpStatusCode.OK: // we got stuff!
-                    var stream = await response.Content.ReadAsStreamAsync();
-                    return stream.Deserialize<UpcResponse>();
+                    var content = await response.Content.ReadAsStringAsync();
+                    return content.Deserialize<UpcResponse>();
                 case HttpStatusCode.NotFound:
                 case HttpStatusCode.BadRequest: // invalid query, missing parameters
                     throw new UpcNotFoundException(id);

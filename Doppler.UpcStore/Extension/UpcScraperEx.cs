@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 using Doppler.Core.Extension;
 using Doppler.Core.Type;
@@ -9,19 +10,28 @@ namespace Doppler.UpcStore.Extension
     {
         public static string GetTitle(this string title)
         {
-            const string titlePattern = @"^(.+?)[\(\[]";
-            var titleRegex = new Regex(titlePattern, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            string titlePattern;
 
-            return titleRegex.Match(title).Success ? titleRegex.Match(title).Groups[1].Value.Clean() : null;
+            if (title.Contains("[") || title.Contains("("))
+            {
+                titlePattern = @"^(.+?)[\(\[]";
+            }
+            else
+            {
+                titlePattern = @"^(.+)";
+            }
+
+            var titleRegex = new Regex(titlePattern, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            return titleRegex.Match(title.ToLower()).Success ? titleRegex.Match(title).Groups[1].Value.Clean() : null;
         }
 
         public static MediaType GetMediaType(this string title)
         {
-            const string mediaTypePattern = @"DVD|Blu?.Ray";
+            const string mediaTypePattern = @"dvd|blu?.ray";
             var mediaTypeRegex = new Regex(mediaTypePattern, RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
             var extractedMediaType = mediaTypeRegex
-                .Match(title)
+                .Match(title.ToLower())
                 .Value
                 .RemoveChar('-')
                 .RemoveChar('e')
